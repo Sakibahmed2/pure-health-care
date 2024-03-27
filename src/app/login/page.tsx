@@ -1,4 +1,7 @@
+"use client";
+
 import assets from "@/assets";
+import { userLogin } from "@/services/actions/userLogin";
 import {
   Box,
   Button,
@@ -10,8 +13,33 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+export type TLoginFormData = {
+  email: string;
+  password: string;
+};
 
 const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TLoginFormData>();
+
+  const onSubmit: SubmitHandler<TLoginFormData> = async (values) => {
+    const toastId = toast.loading("Loading .....");
+    try {
+      const res = await userLogin(values);
+      if (res.success) {
+        toast.success(res?.message, { id: toastId });
+      }
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <Container>
       <Stack
@@ -48,7 +76,7 @@ const LoginPage = () => {
           </Stack>
 
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3} my={2}>
                 <Grid item md={6}>
                   <TextField
@@ -56,6 +84,7 @@ const LoginPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("email")}
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -65,6 +94,7 @@ const LoginPage = () => {
                     variant="outlined"
                     size="small"
                     fullWidth={true}
+                    {...register("password")}
                   />
                 </Grid>
               </Grid>
@@ -81,6 +111,7 @@ const LoginPage = () => {
                 sx={{
                   my: 2,
                 }}
+                type="submit"
               >
                 Login
               </Button>
