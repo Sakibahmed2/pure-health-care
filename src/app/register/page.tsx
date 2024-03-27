@@ -1,6 +1,7 @@
 "use client";
 
 import assets from "@/assets";
+import { registerPatient } from "@/services/actions/registerPatient";
 import { modifyPayload } from "@/utils/modifyPayload";
 import {
   Box,
@@ -13,7 +14,9 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 type TPatientData = {
   name: string;
@@ -28,15 +31,28 @@ type TPatientRegisterFromData = {
 };
 
 const RegisterPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<TPatientRegisterFromData>();
-  const onSubmit: SubmitHandler<TPatientRegisterFromData> = (values) => {
+
+  const onSubmit: SubmitHandler<TPatientRegisterFromData> = async (values) => {
+    const toastId = toast.loading("Creating.....");
     const data = modifyPayload(values);
-    console.log(data);
+    // console.log(data);
+    try {
+      const res = await registerPatient(data);
+      console.log(res);
+      if (res.success) {
+        toast.success(res?.message, { id: toastId });
+        router.push("/login");
+      }
+    } catch (err: any) {
+      console.log(err.message);
+    }
   };
 
   return (
