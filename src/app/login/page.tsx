@@ -2,6 +2,7 @@
 
 import assets from "@/assets";
 import { userLogin } from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/auth.services";
 import {
   Box,
   Button,
@@ -34,6 +35,9 @@ const LoginPage = () => {
       const res = await userLogin(values);
       if (res.success) {
         toast.success(res?.message, { id: toastId });
+      }
+      if (res?.data?.accessToken) {
+        storeUserInfo({ accessToken: res?.data?.accessToken });
       }
     } catch (err: any) {
       console.log(err.message);
