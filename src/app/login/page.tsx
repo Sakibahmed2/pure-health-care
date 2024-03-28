@@ -2,6 +2,7 @@
 
 import assets from "@/assets";
 import PureForm from "@/components/Forms/PureForm";
+import PureInput from "@/components/Forms/PureInput";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
 import {
@@ -81,22 +82,14 @@ const LoginPage = () => {
             <PureForm onSubmit={handleLogin}>
               <Grid container spacing={3} my={2}>
                 <Grid item md={6}>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    size="small"
-                    fullWidth={true}
-                    {...register("email")}
-                  />
+                  <PureInput label="Email" fullWidth={true} name="email" />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PureInput
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    name="password"
                   />
                 </Grid>
               </Grid>
