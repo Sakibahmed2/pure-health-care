@@ -1,9 +1,13 @@
 "use client";
 
+import { getUserInfo, isLoggedIn } from "@/services/auth.services";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 
 const Navbar = () => {
+  const userInfo = getUserInfo();
+  const isUserExist = isLoggedIn();
+
   return (
     <Container>
       <Stack
@@ -36,9 +40,14 @@ const Navbar = () => {
             NGOs
           </Typography>
         </Stack>
-        <Button component={Link} href="/login">
-          Login
-        </Button>
+
+        {isUserExist ? (
+          <Button color="error">Logout</Button>
+        ) : (
+          <Button component={Link} href="/login">
+            Login
+          </Button>
+        )}
       </Stack>
     </Container>
   );
