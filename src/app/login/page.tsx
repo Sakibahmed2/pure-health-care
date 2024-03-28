@@ -1,6 +1,7 @@
 "use client";
 
 import assets from "@/assets";
+import PureForm from "@/components/Forms/PureForm";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
 import {
@@ -15,7 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 export type TLoginFormData = {
@@ -25,13 +26,8 @@ export type TLoginFormData = {
 
 const LoginPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TLoginFormData>();
 
-  const onSubmit: SubmitHandler<TLoginFormData> = async (values) => {
+  const handleLogin = async (values: FieldValues) => {
     const toastId = toast.loading("Loading .....");
     try {
       const res = await userLogin(values);
@@ -82,7 +78,7 @@ const LoginPage = () => {
           </Stack>
 
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <PureForm onSubmit={handleLogin}>
               <Grid container spacing={3} my={2}>
                 <Grid item md={6}>
                   <TextField
@@ -127,7 +123,7 @@ const LoginPage = () => {
                   Create an account
                 </Link>
               </Typography>
-            </form>
+            </PureForm>
           </Box>
         </Box>
       </Stack>
