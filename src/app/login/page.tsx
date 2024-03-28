@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ export type TLoginFormData = {
 };
 
 const LoginPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -33,11 +35,11 @@ const LoginPage = () => {
     const toastId = toast.loading("Loading .....");
     try {
       const res = await userLogin(values);
-      if (res.success) {
-        toast.success(res?.message, { id: toastId });
-      }
+
       if (res?.data?.accessToken) {
         storeUserInfo({ accessToken: res?.data?.accessToken });
+        toast.success(res?.message, { id: toastId });
+        router.push("/");
       }
     } catch (err: any) {
       console.log(err.message);

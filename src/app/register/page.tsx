@@ -2,6 +2,8 @@
 
 import assets from "@/assets";
 import { registerPatient } from "@/services/actions/registerPatient";
+import { userLogin } from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/auth.services";
 import { modifyPayload } from "@/utils/modifyPayload";
 import {
   Box,
@@ -41,13 +43,20 @@ const RegisterPage = () => {
   const onSubmit: SubmitHandler<TPatientRegisterFromData> = async (values) => {
     const toastId = toast.loading("Creating.....");
     const data = modifyPayload(values);
-    // console.log(data);
     try {
       const res = await registerPatient(data);
-      console.log(res);
       if (res.success) {
         toast.success(res?.message, { id: toastId });
-        router.push("/login");
+
+        const result = await userLogin({
+          password: values.password,
+          email: values.patient.email,
+        });
+
+        if (result?.data?.accessToken) {
+          storeUserInfo({ accessToken: result?.data?.accessToken });
+          router.push("/");
+        }
       }
     } catch (err: any) {
       console.log(err.message);
