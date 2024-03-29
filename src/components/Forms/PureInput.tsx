@@ -26,7 +26,7 @@ const PureInput = ({
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           {...field}
           sx={{ ...sx }}
@@ -37,6 +37,8 @@ const PureInput = ({
           size={size}
           fullWidth={fullWidth}
           required={required}
+          error={!!error?.message}
+          helperText={error?.message}
         />
       )}
     />

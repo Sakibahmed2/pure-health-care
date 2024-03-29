@@ -29,7 +29,7 @@ export type TLoginFormData = {
 
 export const validationSchema = z.object({
   email: z.string().email("Please enter a valid email"),
-  password: z.string().min(6, "Must be at last 6 character"),
+  password: z.string().min(6, "Must be at least 6 character"),
 });
 
 const LoginPage = () => {
@@ -89,6 +89,10 @@ const LoginPage = () => {
             <PureForm
               onSubmit={handleLogin}
               resolver={zodResolver(validationSchema)}
+              defaultValues={{
+                email: "",
+                password: "",
+              }}
             >
               <Grid container spacing={3} my={2}>
                 <Grid item md={6}>
