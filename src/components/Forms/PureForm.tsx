@@ -6,13 +6,23 @@ import {
   useForm,
 } from "react-hook-form";
 
+type TFormConfig = {
+  resolver?: any;
+};
+
 type TFormProps = {
   children: ReactNode;
   onSubmit: SubmitHandler<FieldValues>;
-};
+} & TFormConfig;
 
-const PureForm = ({ children, onSubmit }: TFormProps) => {
-  const methods = useForm();
+const PureForm = ({ children, onSubmit, resolver }: TFormProps) => {
+  const formConfig: TFormConfig = {};
+
+  if (resolver) {
+    formConfig["resolver"] = resolver;
+  }
+
+  const methods = useForm(formConfig);
   const { handleSubmit, reset } = methods;
 
   const submit: SubmitHandler<FieldValues> = (data) => {

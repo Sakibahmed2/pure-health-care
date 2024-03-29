@@ -1,6 +1,8 @@
 "use client";
 
 import assets from "@/assets";
+import PureForm from "@/components/Forms/PureForm";
+import PureInput from "@/components/Forms/PureInput";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
@@ -17,7 +19,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 type TPatientData = {
@@ -34,13 +36,8 @@ type TPatientRegisterFromData = {
 
 const RegisterPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TPatientRegisterFromData>();
 
-  const onSubmit: SubmitHandler<TPatientRegisterFromData> = async (values) => {
+  const handleRegister = async (values: FieldValues) => {
     const toastId = toast.loading("Creating.....");
     const data = modifyPayload(values);
     try {
@@ -99,54 +96,43 @@ const RegisterPage = () => {
           </Stack>
 
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <PureForm onSubmit={handleRegister}>
               <Grid container spacing={3} my={2}>
                 <Grid item md={12}>
-                  <TextField
+                  <PureInput
                     label="Name"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.name")}
+                    name="patient.name"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PureInput
                     label="Email"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.email")}
+                    name="patient.email"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PureInput
                     label="Password"
                     type="password"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("password")}
+                    name="password"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PureInput
                     label="Contact No"
                     type="tel"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.contactNumber")}
+                    name="patient.contactNumber"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
+                  <PureInput
                     label="Address"
-                    type="text"
-                    variant="outlined"
-                    size="small"
                     fullWidth={true}
-                    {...register("patient.address")}
+                    name="patient.address"
                   />
                 </Grid>
               </Grid>
@@ -165,7 +151,7 @@ const RegisterPage = () => {
                   Login
                 </Link>
               </Typography>
-            </form>
+            </PureForm>
           </Box>
         </Box>
       </Stack>

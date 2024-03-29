@@ -5,6 +5,7 @@ import PureForm from "@/components/Forms/PureForm";
 import PureInput from "@/components/Forms/PureInput";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -19,11 +20,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export type TLoginFormData = {
   email: string;
   password: string;
 };
+
+export const validationSchema = z.object({
+  email: z.string().email("Please enter a valid email"),
+  password: z.string().min(6, "Must be at last 6 character"),
+});
 
 const LoginPage = () => {
   const router = useRouter();
@@ -79,7 +86,10 @@ const LoginPage = () => {
           </Stack>
 
           <Box>
-            <PureForm onSubmit={handleLogin}>
+            <PureForm
+              onSubmit={handleLogin}
+              resolver={zodResolver(validationSchema)}
+            >
               <Grid container spacing={3} my={2}>
                 <Grid item md={6}>
                   <PureInput label="Email" fullWidth={true} name="email" />
