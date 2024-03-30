@@ -32,7 +32,14 @@ const Footer = () => {
           <Image src={twitter} width={40} height={40} alt="facebook" />
           <Image src={linkedin} width={40} height={40} alt="facebook" />
         </Stack>
-        <div className="border-b-2 border-dashed"></div>
+        {/* <div className="border-b-2 border-dashed"></div> */}
+
+        <Box
+          sx={{
+            border: "1px dashed lightgray",
+          }}
+        ></Box>
+
         <Stack direction="row" gap={4} justifyContent="space-between" py={2}>
           <Typography color="#ffff" component="p">
             &copy;2024 Pure health care all rights reserved
