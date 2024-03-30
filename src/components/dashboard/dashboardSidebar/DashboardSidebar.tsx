@@ -10,7 +10,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
-import SidebarItems from "../SidebarItems/SidebarItems";
+import SidebarItems from "../Sidebar/Sidebar";
 
 const drawerWidth = 240;
 
@@ -45,6 +45,9 @@ export default function DashboardSidebar({
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          bgcolor: "#F4F7FE",
+          boxShadow: 0,
+          borderBottom: "1px solid lightgray",
         }}
       >
         <Toolbar>
@@ -53,13 +56,33 @@ export default function DashboardSidebar({
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{
+              mr: 2,
+              display: { sm: "none" },
+              color: "black",
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component={Link} href={"/"}>
-            PURE health care
-          </Typography>
+          <Box>
+            <Typography
+              variant="body2"
+              noWrap
+              component="div"
+              color={"gray"}
+              fontWeight={600}
+            >
+              Hi, Sakib ahmed
+            </Typography>
+            <Typography
+              variant="body2"
+              noWrap
+              component="div"
+              color={"primary.main"}
+            >
+              Welcome to pure health care
+            </Typography>
+          </Box>
         </Toolbar>
       </AppBar>
       <Box
