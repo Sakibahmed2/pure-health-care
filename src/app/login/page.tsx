@@ -18,6 +18,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -34,6 +35,7 @@ export const validationSchema = z.object({
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
 
   const handleLogin = async (values: FieldValues) => {
     const toastId = toast.loading("Loading .....");
@@ -44,6 +46,9 @@ const LoginPage = () => {
         storeUserInfo({ accessToken: res?.data?.accessToken });
         toast.success(res?.message, { id: toastId });
         router.push("/");
+      } else {
+        setError(res?.message);
+        toast.error(res?.message, { id: toastId });
       }
     } catch (err: any) {
       console.log(err.message);
@@ -84,6 +89,23 @@ const LoginPage = () => {
               </Typography>
             </Box>
           </Stack>
+
+          {error && (
+            <Box>
+              <Typography
+                sx={{
+                  bgcolor: "#ff8080",
+                  padding: 1,
+                  border: "2px solid red",
+                  borderRadius: 1,
+                  color: "white",
+                  mt: 1,
+                }}
+              >
+                {error}
+              </Typography>
+            </Box>
+          )}
 
           <Box>
             <PureForm
