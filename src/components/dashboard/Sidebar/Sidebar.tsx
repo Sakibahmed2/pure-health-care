@@ -17,26 +17,11 @@ import React from "react";
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
+import { sidebarItems } from "@/utils/sidebarItems";
+import { TUserRole } from "@/types";
+import Items from "./Items";
 
 const SidebarItems = () => {
-  const drawer = (
-    <div>
-      <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
-
   return (
     <Box>
       <Stack
@@ -58,7 +43,12 @@ const SidebarItems = () => {
           health care
         </Typography>
       </Stack>
-      {drawer}
+      <Divider />
+      <List>
+        {sidebarItems("doctor" as TUserRole).map((item, index) => (
+          <Items key={index} item={item} />
+        ))}
+      </List>
     </Box>
   );
 };
