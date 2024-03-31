@@ -1,24 +1,10 @@
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MailIcon from "@mui/icons-material/Mail";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+import { Box, Divider, List, Stack, Typography } from "@mui/material";
 
-import React from "react";
-import Image from "next/image";
 import assets from "@/assets";
-import Link from "next/link";
-import { sidebarItems } from "@/utils/sidebarItems";
 import { TUserRole } from "@/types";
+import { sidebarItems } from "@/utils/sidebarItems";
+import Image from "next/image";
+import Link from "next/link";
 import Items from "./Items";
 
 const SidebarItems = () => {
@@ -45,7 +31,7 @@ const SidebarItems = () => {
       </Stack>
       <Divider />
       <List>
-        {sidebarItems("doctor" as TUserRole).map((item, index) => (
+        {sidebarItems("admin" as TUserRole).map((item, index) => (
           <Items key={index} item={item} />
         ))}
       </List>
