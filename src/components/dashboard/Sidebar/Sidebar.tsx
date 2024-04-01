@@ -6,8 +6,17 @@ import { sidebarItems } from "@/utils/sidebarItems";
 import Image from "next/image";
 import Link from "next/link";
 import Items from "./Items";
+import { getUserInfo } from "@/services/auth.services";
+import { useEffect, useState } from "react";
 
 const SidebarItems = () => {
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const { role } = getUserInfo();
+    setUserRole(role);
+  }, []);
+
   return (
     <Box>
       <Stack
@@ -31,7 +40,7 @@ const SidebarItems = () => {
       </Stack>
       <Divider />
       <List>
-        {sidebarItems("admin" as TUserRole).map((item, index) => (
+        {sidebarItems(userRole as TUserRole).map((item, index) => (
           <Items key={index} item={item} />
         ))}
       </List>

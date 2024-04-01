@@ -17,7 +17,6 @@ const Items = ({ item }: TProps) => {
   const linkPath = `/dashboard/${item.path}`;
 
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <Link href={linkPath}>
