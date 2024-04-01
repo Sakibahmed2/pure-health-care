@@ -17,3 +17,19 @@ export type TSidebarItems = {
   icon?: OverridableComponent<SvgIconTypeMap<{}, "svg">> & { muiName: string };
   child?: TSidebarItems[];
 };
+
+export type TResponseSuccess = {
+  data: any;
+  meta?: TMeta;
+};
+
+export type TGenericErrorResponse = {
+  statusCode: number;
+  message: string;
+  errorMessage: TGenericErrorMessage;
+};
+
+export type TGenericErrorMessage = {
+  path: string | number;
+  message: string;
+};
