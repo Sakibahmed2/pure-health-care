@@ -29,9 +29,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function PureModal({
-  open,
+  open = false,
   setOpen,
-  title,
+  title = "",
   children,
   sx,
 }: TModalProps) {
@@ -48,7 +48,7 @@ export default function PureModal({
         sx={{ ...sx }}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-          Modal title
+          {title}
         </DialogTitle>
         <IconButton
           aria-label="close"
@@ -63,11 +63,6 @@ export default function PureModal({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>{children}</DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </React.Fragment>
   );
