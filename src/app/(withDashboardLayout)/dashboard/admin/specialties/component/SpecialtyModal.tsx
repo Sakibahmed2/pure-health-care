@@ -20,10 +20,8 @@ const SpecialtyModal = ({ open, setOpen }: TProps) => {
 
   const handleFormSubmit = async (values: FieldValues) => {
     const data = modifyPayload(values);
-    console.log(data);
     try {
       const res = await createSpecialty(data).unwrap();
-      console.log(res);
       if (res?.id) {
         toast.success("Specialty created successfully!!");
         setOpen(false);
