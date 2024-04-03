@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Stack, TextField } from "@mui/material";
-import SpecialistModal from "./component/SpecialistModal";
+import SpecialistModal from "./component/SpecialtyModal";
 import { useState } from "react";
 
 const SpecialtiesPage = () => {
