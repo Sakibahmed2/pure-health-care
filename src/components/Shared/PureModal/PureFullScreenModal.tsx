@@ -2,14 +2,29 @@
 
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { SxProps, styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
+import { DialogContent, DialogTitle, SxProps } from "@mui/material";
+import { BootstrapDialog } from "./PureModal";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 type TModalProps = {
   open: boolean;
@@ -19,16 +34,7 @@ type TModalProps = {
   sx?: SxProps;
 };
 
-export const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2),
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1),
-  },
-}));
-
-export default function PureModal({
+export default function PureFullScreenModal({
   open = false,
   setOpen,
   title = "",
@@ -46,6 +52,7 @@ export default function PureModal({
         aria-labelledby="customized-dialog-title"
         open={open}
         sx={{ ...sx }}
+        TransitionComponent={Transition}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {title}

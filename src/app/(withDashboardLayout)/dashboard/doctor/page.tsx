@@ -1,8 +1,12 @@
+import { Box, Button, Stack } from "@mui/material";
+
 const DoctorPage = () => {
   return (
-    <div>
-      <h2>Doctor dashboard</h2>
-    </div>
+    <Box>
+      <Stack>
+        <Button>Create new doctor</Button>
+      </Stack>
+    </Box>
   );
 };
 
