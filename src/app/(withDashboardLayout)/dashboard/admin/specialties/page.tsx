@@ -6,7 +6,7 @@ import { useState } from "react";
 import {
   useDeleteSpecialtyMutation,
   useGetAllSpecialtiesQuery,
-} from "@/redux/api/specialties.api";
+} from "@/redux/api/specialtiesApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import PureLoading from "@/components/Loading/Loading";
 import Image from "next/image";

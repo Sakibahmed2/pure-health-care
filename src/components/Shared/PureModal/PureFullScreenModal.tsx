@@ -48,6 +48,7 @@ export default function PureFullScreenModal({
   return (
     <React.Fragment>
       <BootstrapDialog
+        fullScreen
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}

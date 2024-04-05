@@ -2,9 +2,12 @@ import PureForm from "@/components/Forms/PureForm";
 import PureInput from "@/components/Forms/PureInput";
 import PureSelectField from "@/components/Forms/PureSelectField";
 import PureFullScreenModal from "@/components/Shared/PureModal/PureFullScreenModal";
+import { useCreateDoctorMutation } from "@/redux/api/doctorApi";
 import { Gender } from "@/types/common";
+import { modifyPayload } from "@/utils/modifyPayload";
 import { Button, Grid } from "@mui/material";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -12,8 +15,24 @@ type TProps = {
 };
 
 const DoctorModal = ({ open, setOpen }: TProps) => {
-  const handleFormSubmit = (values: FieldValues) => {
-    console.log(values);
+  const [createDoctor] = useCreateDoctorMutation();
+
+  const handleFormSubmit = async (values: FieldValues) => {
+    values.doctor.experience = Number(values.doctor.experience);
+    values.doctor.apointmentFee = Number(values.doctor.apointmentFee);
+    const data = modifyPayload(values);
+
+    try {
+      const res = await createDoctor(data).unwrap();
+      console.log(res);
+      if (res.id) {
+        toast.success("Doctor created successfully");
+        setOpen(false);
+      }
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const defaultValues = {

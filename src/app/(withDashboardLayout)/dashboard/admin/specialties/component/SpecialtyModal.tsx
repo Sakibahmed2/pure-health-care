@@ -2,7 +2,7 @@ import PureFileUploader from "@/components/Forms/PureFileUploader";
 import PureForm from "@/components/Forms/PureForm";
 import PureInput from "@/components/Forms/PureInput";
 import PureModal from "@/components/Shared/PureModal/PureModal";
-import { useCreateSpecialtyMutation } from "@/redux/api/specialties.api";
+import { useCreateSpecialtyMutation } from "@/redux/api/specialtiesApi";
 import { modifyPayload } from "@/utils/modifyPayload";
 import { Button, Grid } from "@mui/material";
 
