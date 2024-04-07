@@ -13,8 +13,13 @@ import Image from "next/image";
 
 const AdminDoctorPage = () => {
   const [open, setOpen] = useState(false);
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  console.log(searchTerm);
 
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+  query["searchTerm"] = searchTerm;
+
+  const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
 
   const handleDelete = async (id: string) => {
     try {
@@ -62,7 +67,11 @@ const AdminDoctorPage = () => {
           Create new doctor
         </Button>
         <DoctorModal open={open} setOpen={setOpen} />
-        <TextField size="small" placeholder="Search doctor" />
+        <TextField
+          onChange={(e) => setSearchTerm(e.target.value)}
+          size="small"
+          placeholder="Search doctor"
+        />
       </Stack>
 
       <Box>
