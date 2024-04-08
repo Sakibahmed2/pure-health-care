@@ -1,28 +1,43 @@
 "use client";
 
-import PureFullScreenModal from "@/components/Shared/PureModal/PureFullScreenModal";
-import PureModal from "@/components/Shared/PureModal/PureModal";
+import PureLoading from "@/components/Loading/Loading";
+import {
+  useDeleteDoctorMutation,
+  useGetAllDoctorsQuery,
+} from "@/redux/api/doctorApi";
+import { useDebounced } from "@/redux/hooks";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, Button, Stack, TextField } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 import DoctorModal from "./component/DoctorModal";
-import { useGetAllDoctorsQuery } from "@/redux/api/doctorApi";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import PureLoading from "@/components/Loading/Loading";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Image from "next/image";
+import { toast } from "sonner";
 
 const AdminDoctorPage = () => {
   const [open, setOpen] = useState(false);
   const query: Record<string, any> = {};
   const [searchTerm, setSearchTerm] = useState<string>("");
-  console.log(searchTerm);
 
-  query["searchTerm"] = searchTerm;
+  const debounced = useDebounced({
+    searchQuery: searchTerm,
+    delay: 600,
+  });
+
+  if (!!debounced) {
+    query["searchTerm"] = searchTerm;
+  }
 
   const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
+  const [deleteDoctor] = useDeleteDoctorMutation();
 
   const handleDelete = async (id: string) => {
+    console.log(id);
     try {
+      const res = await deleteDoctor(id).unwrap();
+      console.log(res);
+      if (res?.id) {
+        toast.success("Doctor deleted successfully!!!");
+      }
     } catch (err: any) {
       console.log(err.message);
     }
@@ -35,6 +50,8 @@ const AdminDoctorPage = () => {
     { field: "name", headerName: "Name", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
     { field: "contactNumber", headerName: "ContactNo", flex: 1 },
+    { field: "gender", headerName: "Gender", flex: 1 },
+    { field: "apointmentFee", headerName: "Appointment fee", flex: 1 },
     {
       field: "action",
       headerName: "Action",
