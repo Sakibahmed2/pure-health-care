@@ -14,6 +14,7 @@ type TProps = {
 
 const ScheduleModal = ({ open, setOpen }: TProps) => {
   const handleSubmit = (values: FieldValues) => {
+    console.log(values);
     try {
     } catch (err) {
       console.log(err);
@@ -25,7 +26,7 @@ const ScheduleModal = ({ open, setOpen }: TProps) => {
       <PureForm onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item md={12}>
-            <PureDatePicker />
+            <PureDatePicker name="startDate" sx={{ my: 2 }} />
           </Grid>
         </Grid>
         <Button type="submit">Submit</Button>
