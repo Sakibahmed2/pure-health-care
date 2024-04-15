@@ -1,8 +1,9 @@
 "use client";
 
+import PureDatePicker from "@/components/Forms/PureDatePicker";
 import PureForm from "@/components/Forms/PureForm";
 import PureModal from "@/components/Shared/PureModal/PureModal";
-import { Button } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
 
@@ -22,6 +23,11 @@ const ScheduleModal = ({ open, setOpen }: TProps) => {
   return (
     <PureModal open={open} setOpen={setOpen} title="Create schedule">
       <PureForm onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item md={12}>
+            <PureDatePicker />
+          </Grid>
+        </Grid>
         <Button type="submit">Submit</Button>
       </PureForm>
     </PureModal>
