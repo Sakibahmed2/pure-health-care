@@ -4,11 +4,13 @@ import PureDatePicker from "@/components/Forms/PureDatePicker";
 import PureForm from "@/components/Forms/PureForm";
 import PureTimePicker from "@/components/Forms/PureTimePicker";
 import PureModal from "@/components/Shared/PureModal/PureModal";
+import { useCreateScheduleMutation } from "@/redux/api/ScheduleApi";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { timeFormatter } from "@/utils/timeFormatter";
-import { Button, Chip, Divider, Grid, Typography } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TProps = {
   open: boolean;
@@ -16,15 +18,21 @@ type TProps = {
 };
 
 const ScheduleModal = ({ open, setOpen }: TProps) => {
-  const handleSubmit = (values: FieldValues) => {
+  const [createSchedule] = useCreateScheduleMutation();
+
+  const handleSubmit = async (values: FieldValues) => {
     values.startDate = dateFormatter(values?.startDate);
     values.endDate = dateFormatter(values?.endDate);
 
     values.startTime = timeFormatter(values?.startTime);
     values.endTime = timeFormatter(values?.endTime);
 
-    console.log(values);
     try {
+      const res: any = await createSchedule(values);
+      if (res?.data?.length) {
+        toast.success("Schedules successfully created");
+        setOpen(false);
+      }
     } catch (err) {
       console.log(err);
     }
