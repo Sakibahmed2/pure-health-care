@@ -1,51 +1,58 @@
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
-import { SxProps } from "@mui/material";
+import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { SxProps } from "@mui/material";
 
-type TDatePicker = {
+type TTimePickerProps = {
   name: string;
-  size?: "small" | "medium";
   label?: string;
+  size?: "small" | "medium";
+  placeholder?: string;
   required?: boolean;
   fullWidth?: boolean;
   sx?: SxProps;
 };
 
-const PureDatePicker = ({
+const PureTimePicker = ({
   name,
-  size = "small",
   label,
+  size = "small",
+  placeholder,
   required,
   fullWidth = true,
   sx,
-}: TDatePicker) => {
-  const { control } = useFormContext();
+}: TTimePickerProps) => {
+  const { control, formState } = useFormContext();
+  const isError = formState.errors[name] !== undefined;
 
   return (
     <Controller
-      name={name}
       control={control}
       defaultValue={dayjs(new Date().toDateString())}
+      name={name}
       render={({ field: { onChange, value, ...field } }) => {
         return (
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
-              label={label}
-              timezone="system"
-              disablePast
-              onChange={(date) => onChange(date)}
+            <TimePicker
               {...field}
+              label={label}
               value={value || Date.now()}
+              onChange={(time) => onChange(time)}
+              timezone="system"
               slotProps={{
                 textField: {
                   required: required,
                   size: size,
-                  fullWidth: fullWidth,
                   sx: { ...sx },
                   variant: "outlined",
+                  fullWidth: fullWidth,
+                  error: isError,
+                  helperText: isError
+                    ? (formState.errors[name]?.message as string)
+                    : "",
                 },
               }}
             />
@@ -56,4 +63,4 @@ const PureDatePicker = ({
   );
 };
 
-export default PureDatePicker;
+export default PureTimePicker;
