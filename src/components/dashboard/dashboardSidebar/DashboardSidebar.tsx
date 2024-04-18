@@ -11,6 +11,10 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
 import SidebarItems from "../Sidebar/Sidebar";
+import { useGetSingleUserQuery } from "@/redux/api/userApi";
+import { Avatar, Badge, Stack } from "@mui/material";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 const drawerWidth = 240;
 
@@ -21,6 +25,7 @@ export default function DashboardSidebar({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const { data, isLoading } = useGetSingleUserQuery({});
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -64,24 +69,42 @@ export default function DashboardSidebar({
           >
             <MenuIcon />
           </IconButton>
-          <Box>
-            <Typography
-              variant="body2"
-              noWrap
-              component="div"
-              color={"gray"}
-              fontWeight={600}
-            >
-              Hi, Sakib ahmed
-            </Typography>
-            <Typography
-              variant="body2"
-              noWrap
-              component="div"
-              color={"primary.main"}
-            >
-              Welcome to pure health care
-            </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                noWrap
+                component="div"
+                color={"gray"}
+                fontWeight={600}
+              >
+                Hi, {isLoading ? "Loading..." : data?.name}
+              </Typography>
+              <Typography
+                variant="body2"
+                noWrap
+                component="div"
+                color={"primary.main"}
+              >
+                Welcome to pure health care
+              </Typography>
+            </Box>
+            <Stack direction={"row"} gap={3}>
+              <Badge badgeContent={1} color="primary">
+                <IconButton sx={{ background: "#fffff" }}>
+                  <NotificationsNoneIcon color="action" />
+                </IconButton>
+              </Badge>
+              <Avatar alt={data?.name} src={data?.profilePhoto} />
+              <AccountMenu />
+            </Stack>
           </Box>
         </Toolbar>
       </AppBar>
