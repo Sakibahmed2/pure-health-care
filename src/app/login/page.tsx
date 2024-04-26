@@ -41,6 +41,7 @@ const LoginPage = () => {
     const toastId = toast.loading("Loading .....");
     try {
       const res = await userLogin(values);
+      console.log(res);
 
       if (res?.data?.accessToken) {
         storeUserInfo({ accessToken: res?.data?.accessToken });

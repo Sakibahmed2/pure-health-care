@@ -8,6 +8,7 @@ export const userLogin = async (data: FieldValues) => {
     headers: {
       "Content-Type": "application/json",
     },
+
     body: JSON.stringify(data),
     // cache: "no-store",
     credentials: "include",
