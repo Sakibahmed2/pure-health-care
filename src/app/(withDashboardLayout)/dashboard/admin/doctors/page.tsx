@@ -12,6 +12,8 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
 import DoctorModal from "./component/DoctorModal";
 import { toast } from "sonner";
+import CreateIcon from "@mui/icons-material/Create";
+import Link from "next/link";
 
 const AdminDoctorPage = () => {
   const [open, setOpen] = useState(false);
@@ -60,14 +62,25 @@ const AdminDoctorPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <Button
-            onClick={() => handleDelete(row.id)}
-            variant="outlined"
-            color="warning"
-            startIcon={<DeleteIcon />}
-          >
-            Delete
-          </Button>
+          <Stack direction={"row"} spacing={2}>
+            <Button
+              onClick={() => handleDelete(row.id)}
+              variant="outlined"
+              color="warning"
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+            <Button
+              component={Link}
+              href={`/dashboard/admin/doctors/edit/${row.id}`}
+              variant="outlined"
+              color="secondary"
+              startIcon={<CreateIcon />}
+            >
+              Update
+            </Button>
+          </Stack>
         );
       },
     },
