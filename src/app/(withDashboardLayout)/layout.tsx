@@ -3,18 +3,17 @@
 import DashboardSidebar from "@/components/dashboard/dashboardSidebar/DashboardSidebar";
 import { isLoggedIn } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoggedIn()) {
-      router.push("/login");
-    }
-  }, []);
+  if (!isLoggedIn()) {
+    router.push("/login");
+    return null;
+  }
 
-  return isLoggedIn() ? <DashboardSidebar>{children}</DashboardSidebar> : null;
+  return <DashboardSidebar>{children}</DashboardSidebar>;
 };
 
 export default DashboardLayout;
