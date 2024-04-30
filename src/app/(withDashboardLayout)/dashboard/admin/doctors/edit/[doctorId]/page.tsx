@@ -11,6 +11,7 @@ import {
 } from "@/redux/api/doctorApi";
 import { Gender } from "@/types/common";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -21,6 +22,7 @@ type TParams = {
 };
 
 const DoctorUpdatePage = ({ params }: TParams) => {
+  const router = useRouter();
   const doctorId = params?.doctorId;
 
   const { data, isLoading } = useGetDoctorQuery(doctorId);
@@ -36,7 +38,11 @@ const DoctorUpdatePage = ({ params }: TParams) => {
     values.apointmentFee = Number(values.apointmentFee);
     values.id = doctorId;
     try {
-      const res = await console.log(values);
+      const res = await updateDoctor({ id: values.id, body: values }).unwrap();
+      if (res?.id) {
+        toast.success("Doctor updated successfully", { id: toastId });
+        router.push("/dashboard/admin/doctors");
+      }
     } catch (err) {
       console.log(err);
     }
