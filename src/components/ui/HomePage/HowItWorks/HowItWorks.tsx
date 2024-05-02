@@ -1,11 +1,7 @@
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import howItWorks from "@/assets/how-it-works-img.png";
-import Image from "next/image";
-import assets from "@/assets";
-import doctorIcon from "@/assets/icons/doctor-icon.png";
 import searchIcon from "@/assets/icons/search-icon.png";
-import charityIcon from "@/assets/icons/charity-icon.png";
-import appointmentIcon from "@/assets/icons/appointment-icon.png";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 
 const HowItWorks = () => {
   return (
