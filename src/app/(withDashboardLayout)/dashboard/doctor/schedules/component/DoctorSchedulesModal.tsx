@@ -8,6 +8,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { Dispatch, SetStateAction, useState } from "react";
 import MultipleSelectFieldChip from "./MultipleSelectFieldChip";
+import { Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useCreateDoctorScheduleMutation } from "@/redux/api/doctorScheduleApi";
 
 type TModalProps = {
   open: boolean;
@@ -20,6 +23,8 @@ const DoctorSchedulesModal = ({ open, setOpen }: TModalProps) => {
   );
 
   const [selectedScheduleIds, setSelectedScheduleIds] = useState<string[]>([]);
+
+  console.log(selectedScheduleIds);
 
   const query: Record<string, any> = {};
 
@@ -37,24 +42,52 @@ const DoctorSchedulesModal = ({ open, setOpen }: TModalProps) => {
       .toISOString();
   }
 
-  const { data, isLoading } = useGetAllSchedulesQuery(query);
+  const { data } = useGetAllSchedulesQuery(query);
   const schedules = data?.schedules;
 
-  console.log(schedules);
+  const [createDoctorSchedule, { isLoading }] =
+    useCreateDoctorScheduleMutation();
+
+  const onSubmit = async () => {
+    try {
+      const res = await createDoctorSchedule({
+        scheduleIds: selectedScheduleIds,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <PureModal open={open} setOpen={setOpen} title="Create doctor schedules">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="Controlled picker"
-          value={dayjs(selectedDate)}
-          onChange={(newValue) =>
-            setSelectedDate(dayjs(newValue).toISOString())
-          }
-          sx={{ width: "100%" }}
+      <Stack direction={"column"} gap={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Controlled picker"
+            value={dayjs(selectedDate)}
+            onChange={(newValue) =>
+              setSelectedDate(dayjs(newValue).toISOString())
+            }
+            sx={{ width: "100%" }}
+          />
+        </LocalizationProvider>
+        <MultipleSelectFieldChip
+          schedules={schedules}
+          selectedScheduleIds={selectedScheduleIds}
+          setSelectedScheduleIds={setSelectedScheduleIds}
         />
-      </LocalizationProvider>
-      <MultipleSelectFieldChip schedules={schedules} />
+
+        <LoadingButton
+          size="small"
+          onClick={onSubmit}
+          loading={isLoading}
+          loadingIndicator="Submitting..."
+          variant="contained"
+        >
+          <span>Submit</span>
+        </LoadingButton>
+      </Stack>
     </PureModal>
   );
 };
