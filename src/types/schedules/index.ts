@@ -1,5 +1,6 @@
 export type TSchedule = {
   id?: string;
+  doctorId?: string;
   startDate: string;
   endDate: string;
 };

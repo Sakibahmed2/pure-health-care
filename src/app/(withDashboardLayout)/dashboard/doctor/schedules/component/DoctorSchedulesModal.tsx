@@ -24,8 +24,6 @@ const DoctorSchedulesModal = ({ open, setOpen }: TModalProps) => {
 
   const [selectedScheduleIds, setSelectedScheduleIds] = useState<string[]>([]);
 
-  console.log(selectedScheduleIds);
-
   const query: Record<string, any> = {};
 
   if (!!selectedDate) {
@@ -54,6 +52,7 @@ const DoctorSchedulesModal = ({ open, setOpen }: TModalProps) => {
         scheduleIds: selectedScheduleIds,
       });
       console.log(res);
+      setOpen(false);
     } catch (err) {
       console.log(err);
     }
